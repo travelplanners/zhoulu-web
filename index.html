@@ -656,7 +656,7 @@
     </div>
     </div>
     <div class="service-section">
-      <div class="service-title-row"><div class="service-title">更多酒店</div><button type="button" class="admin-key-inline" onclick="event.stopPropagation();openAdmin()" aria-label="管理员入口" title="管理员入口">🔑</button></div>
+      <div class="service-title-row"><div class="service-title">更多酒店</div><button type="button" id="admin-key-btn" class="admin-key-inline" onclick="event.stopPropagation();openAdmin()" aria-label="管理员入口" title="管理员入口">🔑</button></div>
       <div class="service-box brand-entry" onclick="tryUnlock('hilton-list')">
         <span class="icon">🏨</span>
         <div><strong>希尔顿酒店精选</strong></div>
@@ -1282,7 +1282,7 @@
       </div>
       <div id="unlock-msg" class="modal-msg info">&nbsp;</div>
       <button type="button" class="modal-btn" onclick="submitUnlock()">解锁</button>
-      <span class="modal-link" onclick="openAdmin()">🔐 管理员：修改密码</span>
+      <span id="admin-footer-link" class="modal-link" onclick="openAdmin()">🔐 管理员：修改密码</span>
     </div>
   </div>
 
@@ -1544,6 +1544,15 @@
     const u = document.getElementById("unlock-modal");
     if (u && u.classList.contains("active")) { e.preventDefault(); submitUnlock(); }
   });
+
+  /* 管理员入口默认隐藏：仅 ?admin=1 时显示（例：travelplanners.store/?admin=1） */
+  (function(){
+    var show = false;
+    try { show = new URLSearchParams(location.search).get("admin") === "1"; } catch(e){}
+    if (show) return;
+    var k = document.getElementById("admin-key-btn"); if (k) k.style.display = "none";
+    var l = document.getElementById("admin-footer-link"); if (l) l.style.display = "none";
+  })();
 
 </script>
 </body>
